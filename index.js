@@ -24,6 +24,8 @@ let isGameStarted = false;
 let cursors;
 const paddleSpeed = 350;
 let keys = {};
+let p1victoryText;
+let p2victoryTest;
 
 function preload(){
     this.load.image("ball", "assets/images/ball.png");
@@ -36,7 +38,7 @@ function create(){
         this.physics.world.bounds.width / 2,
         this.physics.world.bounds.height / 2,
         "ball"
-    )
+    );
     ball.setCollideWorldBounds(true);
     ball.setBounce(1, 1);
 
@@ -44,7 +46,7 @@ function create(){
         this.physics.world.bounds.width - (ball.body.width / 2 + 1),
         this.physics.world.bounds.height / 2,
         "paddle"
-    )
+    );
     player1.setImmovable(true);
     player1.setCollideWorldBounds(true);
 
@@ -52,7 +54,7 @@ function create(){
         ball.body.width / 2 + 1,
         this.physics.world.bounds.height / 2,
         "paddle"
-    )
+    );
     player2.setImmovable(true);
     player2.setCollideWorldBounds(true);
 
@@ -62,15 +64,43 @@ function create(){
 
     this.physics.add.collider(ball, player1);
     this.physics.add.collider(ball, player2);
+
+    p1victoryText = this.add.text(
+        this.physics.world.bounds.width / 2,
+        this.physics.world.bounds.height /2,
+        "Player 1 Wins!"
+    );
+    p1victoryText.setVisible(false);
+    p1victoryText.setOrigin(.5);
+
+    p2victoryText = this.add.text(
+        this.physics.world.bounds.width / 2,
+        this.physics.world.bounds.height /2,
+        "Player 2 Wins!"
+    );
+    p2victoryText.setVisible(false);
+    p2victoryText.setOrigin(.5);
+
 }
 
 function update(){
     if(!isGameStarted){
-        const initialVelocityX = (Math.random()*150)+100;
-        const initialVelocityY = (Math.random()*150)+100;
+        const initialVelocityX = 250;
+        const initialVelocityY = 250;
         ball.setVelocityX(initialVelocityX);
         ball.setVelocityY(initialVelocityY);
         isGameStarted = true;
+    }
+
+    if (ball.body.x > player1.body.x){
+        p2victoryText.setVisible(true);
+        ball.setVelocityX(0);
+        ball.setVelocityY(0);
+    }
+    if (ball.body.x < player2.body.x){
+        p1victoryText.setVisible(true);
+        ball.setVelocityX(0);
+        ball.setVelocityY(0);
     }
 
     player1.body.setVelocityY(0);

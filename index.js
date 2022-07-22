@@ -30,6 +30,7 @@ let p2victoryTest;
 function preload(){
     this.load.image("ball", "assets/images/ball.png");
     this.load.image("paddle", "assets/images/paddle.png");
+    this.load.audio("music", ["assets/sounds/sci-fi_platformer12.ogg", "ssets/sounds/sci-fi_platformer12.mp3" ]);
 }
 
 
@@ -80,6 +81,18 @@ function create(){
     );
     p2victoryText.setVisible(false);
     p2victoryText.setOrigin(.5);
+
+    this.music = this.sound.add("music");
+    var musicConfig = {
+        mute: false,
+        volume: 1,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0
+    }
+    this.music.play(musicConfig);
 
 }
 

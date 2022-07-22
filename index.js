@@ -23,6 +23,7 @@ let player2;
 let isGameStarted = false;
 let cursors;
 const paddleSpeed = 350;
+let keys = {};
 
 function preload(){
     this.load.image("ball", "assets/images/ball.png");
@@ -56,6 +57,8 @@ function create(){
     player2.setCollideWorldBounds(true);
 
     cursors = this.input.keyboard.createCursorKeys();
+    keys.w = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    keys.s = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
     this.physics.add.collider(ball, player1);
     this.physics.add.collider(ball, player2);
@@ -63,19 +66,19 @@ function create(){
 
 function update(){
     if(!isGameStarted){
-        const initialVelocityX = 100;
-        const initialVelocityY = 100;
+        const initialVelocityX = (Math.random()*150)+100;
+        const initialVelocityY = (Math.random()*150)+100;
         ball.setVelocityX(initialVelocityX);
         ball.setVelocityY(initialVelocityY);
         isGameStarted = true;
     }
 
-    player1.body.setVelocityY(0)
+    player1.body.setVelocityY(0);
     if (cursors.up.isDown){
         player1.body.setVelocityY(-paddleSpeed);
     }
     if (cursors.down.isDown){
-        player1.setVelocity(paddleSpeed);
+        player1.setVelocityY(paddleSpeed);
     }
     if(ball.body.velocity.y > paddleSpeed){
         ball.body.setVelocityY(paddleSpeed);
@@ -84,4 +87,12 @@ function update(){
         ball.body.setVelocityY(-paddleSpeed);
     }
     
+
+    player2.body.setVelocityY(0);
+    if (keys.w.isDown){
+        player2.body.setVelocityY(-paddleSpeed);
+    }
+    if (keys.s.isDown){
+        player2.setVelocityY(paddleSpeed);
+    }
 }
